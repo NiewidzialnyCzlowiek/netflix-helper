@@ -1,0 +1,16 @@
+package helper.rules
+import helper.model.Response
+
+rule "DramaOrComedy-Drama"
+    when
+        $dramaResponse: Response( question == "drama or comedy", answer == "drama")
+    then
+        System.out.println("Found response drama to first question");
+end
+
+rule "DramaOrComedy-Comedy"
+    when
+        $dramaResponse: Response( question == "drama or comedy", answer == "comedy")
+    then
+        System.out.println("Found response comedy to first question");
+end
