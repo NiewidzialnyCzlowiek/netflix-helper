@@ -1,16 +1,337 @@
 package helper.rules
 import helper.model.Response
+import java.util.List
+import java.util.ArrayList
+import helper.NetflixHelper
 
-rule "DramaOrComedy-Drama"
+rule "DramaOrComedy-initial"
     when
-        $dramaResponse: Response( question == "drama or comedy", answer == "drama")
+        $dramaResponse: Response( question == "drama or comedy? (type 'both' if you like a little of both)", answer == "init")
     then
-        System.out.println("Found response drama to first question");
+        System.out.println("Found first question");
+        //helper.NetflixHelper.getAnswer($dramaResponse);
+        Response response = helper.NetflixHelper.getResponse($dramaResponse);
+        update(response);
 end
 
-rule "DramaOrComedy-Comedy"
+rule "DramaOrComedy-drama"
     when
-        $dramaResponse: Response( question == "drama or comedy", answer == "comedy")
+        $dramaResponse: Response( question == "drama or comedy? (type 'both' if you like a little of both)", answer == "drama")
+    then
+        System.out.println("Found response drama to first question");
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("Do you like sci-fi or supernatural shows?", null, answers));
+        insert(response);
+end
+
+rule "DramaOrComedy-comedy"
+    when
+        $dramaResponse: Response( question == "drama or comedy? (type 'both' if you like a little of both)", answer == "comedy")
     then
         System.out.println("Found response comedy to first question");
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("Do you like characters to have questionable morals?", null, answers));
+        insert(response);
+end
+
+rule "DramaOrComedy-both"
+    when
+        $dramaResponse: Response( question == "drama or comedy? (type 'both' if you like a little of both)", answer == "both")
+    then
+        System.out.println("Found response both to first question");
+        List<String> answers = new ArrayList<String>();
+        answers.add("small town");
+        answers.add("prison");
+        Response response = helper.NetflixHelper.getResponse(new Response("small town or prison?", null, answers));
+        insert(response);
+end
+
+rule "DoYouLikeSciFiOrSupernaturalShows-no"
+    when
+        $dramaResponse: Response( question == "Do you like sci-fi or supernatural shows?", answer == "no")
+    then
+        System.out.println("Found response no to second question");
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("politics?", null, answers));
+        insert(response);
+end
+
+rule "DoYouLikeSciFiOrSupernaturalShows-yes"
+    when
+        $dramaResponse: Response( question == "Do you like sci-fi or supernatural shows?", answer == "yes")
+    then
+        System.out.println("Found response yes to second question");
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("Can you handle gore?", null, answers));
+        insert(response);
+end
+
+rule "CanYouHandleGore-no"
+    when
+        $dramaResponse: Response( question == "Can you handle gore?", answer == "no")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("British characters?", null, answers));
+        insert(response);
+end
+
+rule "CanYouHandleGore-yes"
+    when
+        $dramaResponse: Response( question == "Can you handle gore?", answer == "yes")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("Do you like zoombies?", null, answers));
+        insert(response);
+end
+
+rule "BritishCharacters-no"
+    when
+        $dramaResponse: Response( question == "British characters?", answer == "no")
+    then
+        System.out.println("Watch: 'Lost' (3 days 18 hrs)");
+end
+
+rule "BritishCharacters-yes"
+    when
+        $dramaResponse: Response( question == "British characters?", answer == "yes")
+    then
+        System.out.println("Watch: 'Dr. Who' (15 days 12 hrs)");
+end
+
+rule "DoYouLikeZoombies-no"
+    when
+        $dramaResponse: Response( question == "Do you like zoombies?", answer == "no")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("Vampires?", null, answers));
+        insert(response);
+end
+
+rule "Vampires-yes"
+    when
+        $dramaResponse: Response( question == "Vampires?", answer == "yes")
+    then
+        System.out.println("Watch: 'The Vampire Diaries' (3 days 6 hrs)");
+end
+
+rule "Vampires-no"
+    when
+        $dramaResponse: Response( question == "Vampires?", answer == "no")
+    then
+        System.out.println("Watch: 'Super Natural' (6 days 1 hrs)");
+end
+
+rule "DoYouLikeZoombies-yes"
+    when
+        $dramaResponse: Response( question == "Do you like zoombies?", answer == "yes")
+    then
+        System.out.println("Watch: 'The Walking Dead' (1 days 15 hrs)");
+end
+
+rule "Politics-no"
+    when
+        $dramaResponse: Response( question == "politics?", answer == "no")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("Feel like crying?", null, answers));
+        insert(response);
+end
+
+rule "Politics-yes"
+    when
+        $dramaResponse: Response( question == "politics?", answer == "yes")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("Need action?", null, answers));
+        insert(response);
+end
+
+rule "NeedAction-no"
+    when
+        $dramaResponse: Response( question == "Need action?", answer == "no")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("Scandalous romance?", null, answers));
+        insert(response);
+end
+
+rule "NeedAction-yes"
+    when
+        $dramaResponse: Response( question == "Need action?", answer == "yes")
+    then
+        System.out.println("Watch: '24' (6 days 2 hrs)");
+end
+
+rule "ScandalousRomance-no"
+    when
+        $dramaResponse: Response( question == "Scandalous romance?", answer == "no")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("optimistic");
+        answers.add("cynical");
+        Response response = helper.NetflixHelper.getResponse(new Response("Optimistic or cynical?", null, answers));
+        insert(response);
+end
+
+rule "ScandalousRomance-yes"
+    when
+        $dramaResponse: Response( question == "Scandalous romance?", answer == "yes")
+    then
+        System.out.println("Watch: 'scandalous' (1 day 8 hrs)");
+end
+
+rule "OptymisticOrCynical-optimistic"
+    when
+        $dramaResponse: Response( question == "Optimistic or cynical?", answer == "optimistic")
+    then
+        System.out.println("Watch: 'The West Wing' (4 days 20 hrs)");
+end
+
+rule "OptymisticOrCynical-cynical"
+    when
+        $dramaResponse: Response( question == "Optymistic or cynical?", answer == "cynical")
+    then
+        System.out.println("Watch: 'House of Cards' (1 day 9 hrs)");
+end
+
+rule "FeelLikeCrying-no"
+    when
+        $dramaResponse: Response( question == "Feel like crying?", answer == "no")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("Do you like crime shows?", null, answers));
+        insert(response);
+end
+
+rule "FeelLikeCrying-yes"
+    when
+        $dramaResponse: Response( question == "Feel like crying?", answer == "yes")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("Do you like football?", null, answers));
+        insert(response);
+end
+
+rule "DoYouLikeFootball-no"
+    when
+        $dramaResponse: Response( question == "Do you like football?", answer == "no")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("Hospitals?", null, answers));
+        insert(response);
+end
+
+rule "DoYouLikeFootball-yes"
+    when
+        $dramaResponse: Response( question == "Do you like football?", answer == "yes")
+    then
+        System.out.println("Watch: 'Friday Night Lights' (2 days 8 hrs)");
+end
+
+rule "Hospitals-yes"
+    when
+        $dramaResponse: Response( question == "Hospitals?", answer == "yes")
+    then
+        System.out.println("Watch: 'Grey's Anatomy' (6 days 16 hrs)");
+end
+
+rule "Hospitals-no"
+    when
+        $dramaResponse: Response( question == "Hospitals?", answer == "no")
+    then
+        System.out.println("Watch: 'Parent-Hood' (2 days 16 hrs)");
+end
+
+rule "DoYouLikeCrimeShows-no"
+    when
+        $dramaResponse: Response( question == "Do you like crime shows?", answer == "no")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("meth?", null, answers));
+        insert(response);
+end
+
+rule "DoYouLikeCrimeShows-yes"
+    when
+        $dramaResponse: Response( question == "Do you like crime shows?", answer == "yes")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("Do you root for criminals?", null, answers));
+        insert(response);
+end
+
+rule "DoYouRootForCriminals-no"
+    when
+        $dramaResponse: Response( question == "Do you root for criminals?", answer == "no")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("forensics");
+        answers.add("psychology");
+        Response response = helper.NetflixHelper.getResponse(new Response("forensics or psychology?", null, answers));
+        insert(response);
+end
+
+rule "DoYouRootForCriminals-yes"
+    when
+        $dramaResponse: Response( question == "Do you root for criminals?", answer == "yes")
+    then
+        System.out.println("Watch: 'Dexter' (3 days)");
+end
+
+rule "ForensicsOrPsychology-forensics"
+    when
+        $dramaResponse: Response( question == "forensics or psychology?", answer == "forensics")
+    then
+        System.out.println("Watch: 'CSI: Miami' (6 days 22 hrs)");
+end
+
+rule "ForensicsOrPsychology-psychology"
+    when
+        $dramaResponse: Response( question == "forensics or psychology?", answer == "psychology")
+    then
+        System.out.println("Watch: 'Criminal Minds' (6 days 6 hrs)");
+end
+
+rule "Meth-yes"
+    when
+        $dramaResponse: Response( question == "meth?", answer == "yes")
+    then
+        System.out.println("Watch: 'Breaking Bad' (2 days)");
+end
+
+rule "Meth-no"
+    when
+        $dramaResponse: Response( question == "meth?", answer == "no")
+    then
+        System.out.println("Watch: 'Mad Man' (2 days 9 hrs)");
 end
