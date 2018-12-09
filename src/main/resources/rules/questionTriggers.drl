@@ -8,8 +8,6 @@ rule "DramaOrComedy-initial"
     when
         $dramaResponse: Response( question == "drama or comedy? (type 'both' if you like a little of both)", answer == "init")
     then
-        System.out.println("Found first question");
-        //helper.NetflixHelper.getAnswer($dramaResponse);
         Response response = helper.NetflixHelper.getResponse($dramaResponse);
         update(response);
 end
@@ -18,7 +16,6 @@ rule "DramaOrComedy-drama"
     when
         $dramaResponse: Response( question == "drama or comedy? (type 'both' if you like a little of both)", answer == "drama")
     then
-        System.out.println("Found response drama to first question");
         List<String> answers = new ArrayList<String>();
         answers.add("yes");
         answers.add("no");
@@ -30,7 +27,6 @@ rule "DramaOrComedy-comedy"
     when
         $dramaResponse: Response( question == "drama or comedy? (type 'both' if you like a little of both)", answer == "comedy")
     then
-        System.out.println("Found response comedy to first question");
         List<String> answers = new ArrayList<String>();
         answers.add("yes");
         answers.add("no");
@@ -42,7 +38,6 @@ rule "DramaOrComedy-both"
     when
         $dramaResponse: Response( question == "drama or comedy? (type 'both' if you like a little of both)", answer == "both")
     then
-        System.out.println("Found response both to first question");
         List<String> answers = new ArrayList<String>();
         answers.add("small town");
         answers.add("prison");
@@ -54,7 +49,6 @@ rule "DoYouLikeSciFiOrSupernaturalShows-no"
     when
         $dramaResponse: Response( question == "Do you like sci-fi or supernatural shows?", answer == "no")
     then
-        System.out.println("Found response no to second question");
         List<String> answers = new ArrayList<String>();
         answers.add("yes");
         answers.add("no");
@@ -66,7 +60,6 @@ rule "DoYouLikeSciFiOrSupernaturalShows-yes"
     when
         $dramaResponse: Response( question == "Do you like sci-fi or supernatural shows?", answer == "yes")
     then
-        System.out.println("Found response yes to second question");
         List<String> answers = new ArrayList<String>();
         answers.add("yes");
         answers.add("no");
@@ -209,7 +202,7 @@ end
 
 rule "OptymisticOrCynical-cynical"
     when
-        $dramaResponse: Response( question == "Optymistic or cynical?", answer == "cynical")
+        $dramaResponse: Response( question == "Optimistic or cynical?", answer == "cynical")
     then
         System.out.println("Watch: 'House of Cards' (1 day 9 hrs)");
 end
@@ -334,4 +327,158 @@ rule "Meth-no"
         $dramaResponse: Response( question == "meth?", answer == "no")
     then
         System.out.println("Watch: 'Mad Man' (2 days 9 hrs)");
+end
+
+rule "SmallTownOrPrison-smallTown"
+    when
+        $dramaResponse: Response( question == "small town or prison?", answer == "small town")
+    then
+        System.out.println("Watch: 'Gilmore Girls' (4 days 16 hrs)");
+end
+
+rule "SmallTownOrPrison-prison"
+    when
+        $dramaResponse: Response( question == "small town or prison?", answer == "prison")
+    then
+        System.out.println("Watch: 'OITNB' (23 hrs)");
+end
+
+rule "DoYouLikeQuestionableMorals-yes"
+    when
+        $dramaResponse: Response( question == "Do you like characters to have questionable morals?", answer == "yes")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("friends");
+        answers.add("family");
+        Response response = helper.NetflixHelper.getResponse(new Response("friend group or dysfunctional family?", null, answers));
+        insert(response);
+end
+
+rule "DoYouLikeQuestionableMorals-no"
+    when
+        $dramaResponse: Response( question == "Do you like characters to have questionable morals?", answer == "no")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("Do you like strong female characters?", null, answers));
+        insert(response);
+end
+
+rule "DoYouLikeStrongFemale-no"
+    when
+        $dramaResponse: Response( question == "Do you like strong female characters?", answer == "no")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("work place humor?", null, answers));
+        insert(response);
+end
+
+rule "DoYouLikeStrongFemale-yes"
+    when
+        $dramaResponse: Response( question == "Do you like strong female characters?", answer == "yes")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("Do you like them to sell drugs?", null, answers));
+        insert(response);
+end
+
+rule "DoYouLikeThemToSellDrugs-yes"
+    when
+        $dramaResponse: Response( question == "Do you like them to sell drugs?", answer == "yes")
+    then
+        System.out.println("Watch: 'Weeds' (3 days 4 hrs)");
+end
+
+rule "DoYouLikeThemToSellDrugs-no"
+    when
+        $dramaResponse: Response( question == "Do you like them to sell drugs?", answer == "no")
+    then
+        List<String> answers = new ArrayList<String>();
+                answers.add("tina");
+                answers.add("amy");
+                Response response = helper.NetflixHelper.getResponse(new Response("tina fey or amy poehler?", null, answers));
+                insert(response);
+end
+
+rule "TinaOrAmy-tina"
+    when
+        $dramaResponse: Response( question == "tina fey or amy poehler?", answer == "tina")
+    then
+        System.out.println("Watch: '30 Rock' (2 days 2 hrs)");
+end
+
+rule "TinaOrAmy-amy"
+    when
+        $dramaResponse: Response( question == "tina fey or amy poehler?", answer == "amy")
+    then
+        System.out.println("Watch: 'Parks & Recreation' (1 days 18 hrs)");
+end
+
+rule "WorkPlaceHumor-yes"
+    when
+        $dramaResponse: Response( question == "work place humor?", answer == "yes")
+    then
+        System.out.println("Watch: 'The Office' (3 days 5 hrs)");
+end
+
+rule "WorkPlaceHumor-no"
+    when
+        $dramaResponse: Response( question == "work place humor?", answer == "no")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("yes");
+        answers.add("no");
+        Response response = helper.NetflixHelper.getResponse(new Response("Want to see James Franco & Seth Rogen as high schoolers?", null, answers));
+        insert(response);
+end
+
+rule "JamesFrancoSethRogenAsHighSchoolers-yes"
+    when
+        $dramaResponse: Response( question == "Want to see James Franco & Seth Rogen as high schoolers?", answer == "yes")
+    then
+        System.out.println("Watch: 'Freaks & Geeks' (14 hrs)");
+end
+
+rule "JamesFrancoSethRogenAsHighSchoolers-no"
+    when
+        $dramaResponse: Response( question == "Want to see James Franco & Seth Rogen as high schoolers?", answer == "no")
+    then
+        List<String> answers = new ArrayList<String>();
+        answers.add("bar");
+        answers.add("cafe");
+        Response response = helper.NetflixHelper.getResponse(new Response("Do you want your NYC friends to hang out at a bar or cafe?", null, answers));
+        insert(response);
+end
+
+rule "BarOrCafe-bar"
+    when
+        $dramaResponse: Response( question == "Do you want your NYC friends to hang out at a bar or cafe?", answer == "bar")
+    then
+        System.out.println("Watch: 'How I Met Your Mother' (3 days 2 hrs)");
+end
+
+rule "BarOrCafe-cafe"
+    when
+        $dramaResponse: Response( question == "Do you want your NYC friends to hang out at a bar or cafe?", answer == "cafe")
+    then
+        System.out.println("Watch: 'Friends' (3 days 14 hrs)");
+end
+
+rule "FriendGroupOrDisfunctionalFamily-friends"
+    when
+        $dramaResponse: Response( question == "friend group or dysfunctional family?", answer == "friends")
+    then
+        System.out.println("Watch: 'It's Always Sunny In Philadelphia' (1 days 14 hrs)");
+end
+
+rule "FriendGroupOrDisfunctionalFamily-family"
+    when
+        $dramaResponse: Response( question == "friend group or dysfunctional family?", answer == "family")
+    then
+        System.out.println("Watch: 'Arrested Development' (1 days 1 hr)");
 end
