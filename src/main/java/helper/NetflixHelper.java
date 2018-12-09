@@ -1,6 +1,7 @@
 package helper;
 
 import helper.model.Response;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.kie.api.KieServices;
@@ -21,8 +22,9 @@ public class NetflixHelper implements Runnable {
     public void run() {
         try {
             sleep(1000);
-            Logger.getLogger(NetflixHelper.class).setLevel(Level.OFF);
             KieServices kieServices = KieServices.Factory.get();
+            BasicConfigurator.configure();
+            Logger.getLogger(NetflixHelper.class).setLevel(Level.OFF);
             KieContainer kieContainer = kieServices.getKieClasspathContainer();
             KieSession kieSession = kieContainer.newKieSession("ksession-rules");
             kieSession.fireAllRules();
