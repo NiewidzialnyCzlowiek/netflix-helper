@@ -5,6 +5,16 @@ import java.util.ArrayList
 import helper.NetflixHelper
 import helper.Main
 
+rule "Init"
+	when
+	then
+        List<String> answers = new ArrayList<String>();
+        answers.add("comedy");
+        answers.add("drama");
+        answers.add("both");
+        insert(new Response("drama or comedy? (type 'both' if you like a little of both)", "init", answers));
+end
+
 rule "DramaOrComedy-initial"
     when
         $dramaResponse: Response( question == "drama or comedy? (type 'both' if you like a little of both)", answer == "init")
