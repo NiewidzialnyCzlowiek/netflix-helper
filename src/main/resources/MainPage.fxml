@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+
+    <Label prefHeight="50" prefWidth="200" text="Netflix Helper" AnchorPane.leftAnchor="50" AnchorPane.topAnchor="50">
+      <font>
+         <Font size="30.0" />
+      </font></Label>
+    <Button layoutX="50.0" layoutY="115.0" onAction="#startButton_onAction" prefHeight="35.0" prefWidth="150.0" text="Start" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="115.0" />
+    <Label fx:id="questionLabel" layoutX="50.0" layoutY="212.0" prefHeight="50" prefWidth="900.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="212.0">
+      <font>
+         <Font size="14.0" />
+      </font></Label>
+    <Button layoutX="50.0" layoutY="312.0" onAction="#submitButton_onAction" prefHeight="35.0" prefWidth="150.0" text="Submit" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="312.0" />
+   <ChoiceBox fx:id="availableAnswersChoiceBox" layoutX="50.0" layoutY="275.0" prefHeight="27.0" prefWidth="400.0" />
+</AnchorPane>

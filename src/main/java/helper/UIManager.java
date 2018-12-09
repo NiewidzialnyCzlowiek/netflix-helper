@@ -6,21 +6,15 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class UIManager {
+    public static final Object commonLock = new Object();
 
-    private UIController uiController;
-
-    public void initializeUI(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/UIController.fxml"));
-        Parent root = loader.load();
-        uiController = loader.getController();
-        uiController.setUiManager(this);
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public String getAnswer(String question) {
-        uiController.SysMessage.setText(question);
-        return uiController.getAnswer();
+    public void awaitUserResponse() {
+        synchronized (UIManager.commonLock) {
+            try {
+                UIManager.commonLock.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
