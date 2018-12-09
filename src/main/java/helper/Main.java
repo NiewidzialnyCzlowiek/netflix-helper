@@ -39,7 +39,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../MainPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainPage.fxml"));
         loader.setController(mainPageController);
         Scene scene = new Scene(loader.load(), 1000, 800);
         stage.setTitle("Netflix Helper");
@@ -49,6 +49,8 @@ public class Main extends Application {
     }
 
     private static void stopNetflixHelper() {
+        if(netflixHelperThread == null)
+            return;
         try {
             netflixHelperThread.join(1000);
         } catch (InterruptedException e) {

@@ -5,15 +5,18 @@ import helper.UIManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 
 public class MainPageController {
     public Label questionLabel;
     public ChoiceBox<String> availableAnswersChoiceBox;
+    public Button startButton;
     private ObservableList<String> availableAnswers = FXCollections.observableArrayList();
 
     public void startButton_onAction(ActionEvent actionEvent) {
+        startButton.setDisable(true);
         availableAnswersChoiceBox.setItems(availableAnswers);
         Main.runNetflixHelper();
     }
@@ -36,5 +39,7 @@ public class MainPageController {
     public void showAdvice(String advice) {
         availableAnswers.clear();
         questionLabel.setText(advice);
+        startButton.setText("Start again");
+        startButton.setDisable(false);
     }
 }

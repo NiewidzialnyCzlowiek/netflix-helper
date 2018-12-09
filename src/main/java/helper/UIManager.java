@@ -13,7 +13,7 @@ public class UIManager {
             try {
                 UIManager.commonLock.wait();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.out.println("Interrupted waiting for response...");
             }
         }
     }
